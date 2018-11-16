@@ -1,4 +1,4 @@
-package dataManagment;
+package utilities.data;
 
 public class TestData {
 

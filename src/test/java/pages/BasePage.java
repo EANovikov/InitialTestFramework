@@ -3,11 +3,10 @@ package pages;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import tests.BaseTest;
+import utilities.driver.WebDriverFactory;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -19,7 +18,7 @@ public class BasePage extends PageFactory {
     WebDriverWait wait;
 
     public BasePage() {
-        this.driver = BaseTest.getDriver();
+        this.driver = WebDriverFactory.getDriver();
         PageFactory.initElements(driver, this);
         this.wait = new WebDriverWait(driver, 30);
     }

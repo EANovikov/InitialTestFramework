@@ -1,18 +1,18 @@
 package tests;
 
-import dataManagment.ExcelFileReader;
-import dataManagment.TestData;
+import utilities.data.ExcelFileReader;
+import utilities.data.TestData;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+import utilities.driver.WebDriverFactory;
+import utilities.report.CustomTestListener;
 
-import java.io.File;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Listeners({CustomTestListener.class})
 public abstract class BaseTest {
 
     private static WebDriver driver;
@@ -21,16 +21,14 @@ public abstract class BaseTest {
         return driver;
     }
 
-    @BeforeMethod
+    @BeforeMethod (alwaysRun = true)
     public void setUp(Method testContext, Object [] testArguments) {
-        File file = new File("src/main/resources/chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
-        driver = new ChromeDriver();
+        driver = WebDriverFactory.initDriver();
         //driver.manage().window().maximize();
         driver.navigate().to("https://www.google.com");
     }
 
-    @AfterMethod
+    @AfterMethod (alwaysRun = true)
     public void tearDown(Method textContext, ITestResult result) {
         driver.quit();
         switch(result.getStatus()){
