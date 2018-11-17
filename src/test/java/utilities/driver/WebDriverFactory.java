@@ -7,26 +7,34 @@ import java.io.File;
 
 public class WebDriverFactory {
 
-    private static WebDriver driver;
-
-    public static WebDriver getDriver() {
-        try {
-            if (driver == null) {
-                throw new Exception("Impossible to get WebDriver instance: it is null");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return driver;
+    private WebDriverFactory() {
     }
 
-    public static WebDriver initDriver() {
+    private static WebDriverFactory instance = new WebDriverFactory();
 
-        File file = new File("src/main/resources/chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
-        driver = new ChromeDriver();
+    public static WebDriverFactory getInstance() {
+        return instance;
+    }
 
-        return driver;
+    ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>() // thread local driver object for webdriver
+    {
+        @Override
+        protected WebDriver initialValue() {
+            File file = new File("src/main/resources/chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
+            return new ChromeDriver();
+        }
+    };
+
+    public WebDriver getDriver()
+    {
+        return driver.get();
+    }
+
+    public void closeDriver()
+    {
+        driver.get().quit();
+        driver.remove();
     }
 
 }

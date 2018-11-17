@@ -35,7 +35,7 @@ public class CustomTestListener extends TestListenerAdapter {
 
     @Attachment(value = "Page screenshot", type = "image/png")
     private byte[] makeScreenshot() {
-        return ((TakesScreenshot) WebDriverFactory.getDriver()).getScreenshotAs(OutputType.BYTES);
+        return ((TakesScreenshot) WebDriverFactory.getInstance().getDriver()).getScreenshotAs(OutputType.BYTES);
     }
 
 }

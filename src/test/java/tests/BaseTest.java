@@ -1,5 +1,7 @@
 package tests;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import utilities.data.ExcelFileReader;
 import utilities.data.TestData;
 import org.openqa.selenium.WebDriver;
@@ -16,21 +18,22 @@ import java.util.stream.Collectors;
 public abstract class BaseTest {
 
     private static WebDriver driver;
+    private final long TIMEOUT = 15000;
 
-    public static WebDriver getDriver(){
-        return driver;
-    }
-
-    @BeforeMethod (alwaysRun = true)
+     @BeforeMethod (alwaysRun = true, timeOut = TIMEOUT)
     public void setUp(Method testContext, Object [] testArguments) {
-        driver = WebDriverFactory.initDriver();
-        //driver.manage().window().maximize();
+        driver = WebDriverFactory.getInstance().getDriver();
         driver.navigate().to("https://www.google.com");
+        /*if(driver.findElement(By.tagName("body")).getText().contains("ERR_CONNECTION_CLOSED")){
+            System.out.println("DONE");
+            driver.navigate().to("https://www.google.com");
+        }*/
+        driver.manage().window().maximize();
     }
 
     @AfterMethod (alwaysRun = true)
     public void tearDown(Method textContext, ITestResult result) {
-        driver.quit();
+        WebDriverFactory.getInstance().closeDriver();
         switch(result.getStatus()){
             case ITestResult.SUCCESS:
                 System.out.println("======="+textContext.getName() + " PASSED =======\n");
@@ -46,8 +49,8 @@ public abstract class BaseTest {
         }
     }
 
-    @DataProvider(name = "TestData")
-    public Object[][] getTestCaseData(Method testContext){
+    @DataProvider(name = "TestData", parallel = true)
+    public Object[][] getTestCaseData(Method testContext) throws InterruptedException {
         List<TestData> testData = ExcelFileReader.readTestData(testContext.getName());
         return testData.parallelStream()
                 .filter(x -> x.getTestCaseName().equalsIgnoreCase(testContext.getName()))

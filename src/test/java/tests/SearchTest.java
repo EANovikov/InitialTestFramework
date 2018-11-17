@@ -13,10 +13,18 @@ public class SearchTest extends BaseTest{
     @Test (dataProvider = "TestData")
     @Severity(SeverityLevel.BLOCKER)
     @Description("TC01: verify basic search functionality")
-    public void searchByKeywordSeleniumHaveToFindSeleniumhqOrgInTop(TestData testData) {
+    public void searchByKeywordsAndVerifyUrlInTop(TestData testData) {
         new SearchSteps().doSearchWithKeyword(testData.getSearchText());
         new SearchResultsSteps().verifyThatValueIsOnTop(testData.getSearchResult());
  }
+
+    @Test (dataProvider = "TestData")
+    @Severity(SeverityLevel.BLOCKER)
+    @Description("TC02: verify basic search functionality")
+    public void searchByKeywordsAndCheckThatFirstWordIsFoundInAllRows(TestData testData) {
+        new SearchSteps().doSearchWithKeyword(testData.getSearchText());
+        new SearchResultsSteps().verifyThatAllRowsContain(testData.getSearchResult());
+    }
 
 }
 

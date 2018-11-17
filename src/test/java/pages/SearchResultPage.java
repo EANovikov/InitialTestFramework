@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
 
 public class SearchResultPage extends BasePage {
@@ -20,14 +20,25 @@ public class SearchResultPage extends BasePage {
     @FindBy(xpath = "//cite[@class='iUh30']")
     List<WebElement> searchResultURLs;
 
+    @FindBy(xpath = "//div[@class='r']//h3")
+    List<WebElement> searchResultHeaders;
+
     public SearchResultPage() {
         super();
     }
 
     public void assertThatExpectedValueIsOnSearchTop(String expectedValue) {
         wait.until(ExpectedConditions.visibilityOf(topSearchResult));
-        assertEquals(searchResultURLs.get(0).getText(), expectedValue, expectedValue + " is not the first result!");
-}
+        assertThat(searchResultURLs.get(0).getText())
+                .as(expectedValue + "is not the first result!").isEqualTo(expectedValue);
+    }
+
+    public void  assertThatAllRowsContain(String expectedValue) {
+        wait.until(ExpectedConditions.visibilityOf(searchResultHeaders.get(0)));
+        searchResultHeaders.forEach(element ->
+                assertThat(element.getText())
+                        .as("Text has not been found in header!").containsIgnoringCase(expectedValue));
+    }
 
     boolean waitForElementWithTimeout(By by, int timeoutInSeconds) throws InterruptedException {
         List<WebElement> elements = driver.findElements(by);

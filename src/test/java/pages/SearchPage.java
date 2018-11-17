@@ -13,6 +13,12 @@ import java.util.List;
 
 
 public class SearchPage extends BasePage {
+    @FindBy(id = "cnsd")
+    WebElement remindLater;
+
+    @FindBy(name = "q")
+    WebElement searchTextField;
+
     @FindBy(id = "lst-ib")
     WebElement searchField;
 
@@ -22,14 +28,15 @@ public class SearchPage extends BasePage {
     public SearchPage(){super();}
 
     public void fillTheSearchField(String keyword) {
-        Actions builder = new Actions(driver);
-        builder.click().build().perform();
-        builder.sendKeys(Keys.ARROW_DOWN).sendKeys(Keys.ARROW_DOWN).sendKeys(Keys.ARROW_DOWN).sendKeys(Keys.RETURN)
-                .build().perform();
-        searchField.sendKeys(keyword);
+
+        wait.until(ExpectedConditions.visibilityOf(searchTextField));
+        if(remindLater.isDisplayed()){
+            remindLater.click();
+        }
+        searchTextField.sendKeys(keyword);
     }
     public void pressEnter() {
-        searchField.sendKeys(Keys.RETURN);
+        searchTextField.sendKeys(Keys.RETURN);
     }
 
     public void pressVoiceSearchCloseAlert() {

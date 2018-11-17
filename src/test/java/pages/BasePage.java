@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,11 +17,15 @@ public class BasePage extends PageFactory {
 
     WebDriver driver;
     WebDriverWait wait;
+    Actions builder;
+    JavascriptExecutor js;
 
     public BasePage() {
-        this.driver = WebDriverFactory.getDriver();
+        this.driver = WebDriverFactory.getInstance().getDriver();
         PageFactory.initElements(driver, this);
         this.wait = new WebDriverWait(driver, 30);
+        builder = new Actions(driver);
+        js = (JavascriptExecutor)driver;
     }
 
     public void pasteTextToElementFromClipboard(WebElement element, String text) {
