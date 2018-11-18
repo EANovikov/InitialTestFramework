@@ -52,7 +52,7 @@ public class ExcelFileReader {
                     }
                     //find only rows which mapped with test methods
                     if (row.getCell(columnWithTestCasesIndex).getStringCellValue().equals(testMethodName)) {
-                        System.out.println("[" + testMethodName + "] ran with test data:");
+                        System.out.println("[" + testMethodName + "] running with test data:");
                         testData = new TestData();
                         //go thought cells in row, but read values only from cells with valid headers
                         for (Map.Entry<String, Integer> entry : headerMap.entrySet()) {
