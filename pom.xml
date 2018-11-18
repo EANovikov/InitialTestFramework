@@ -11,7 +11,9 @@
     <properties>
         <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
         <aspectj.version>1.8.10</aspectj.version>
+        <testng.version>6.14.3</testng.version>
         <allure-testng.version>2.6.0</allure-testng.version>
+        <assertj-core.version>3.11.1</assertj-core.version>
     </properties>
 
     <dependencies>
@@ -26,7 +28,7 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.14.3</version>
+            <version>${testng.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -47,7 +49,7 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.11.1</version>
+            <version>${assertj-core.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -77,9 +79,14 @@
                             <value>${project.build.directory}/allure-results</value>
                         </property>
                     </systemProperties>
-                    <suiteXmlFiles>
+                    <!--suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/suite/${suite}.xml</suiteXmlFile>
-                    </suiteXmlFiles>
+                    </suiteXmlFiles-->
+                    <systemPropertyVariables>
+                        <browser>${browser}</browser>
+                        <suite>src/test/resources/suite/${suite}</suite>
+                        <parallelMode>${parallelMode}</parallelMode>
+                    </systemPropertyVariables>
                 </configuration>
                 <dependencies>
                     <dependency>

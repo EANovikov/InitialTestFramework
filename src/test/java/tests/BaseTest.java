@@ -1,5 +1,6 @@
 package tests;
 
+import config.ConfigReader;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import utilities.data.ExcelFileReader;
@@ -18,17 +19,16 @@ import java.util.stream.Collectors;
 public abstract class BaseTest {
 
     private static WebDriver driver;
-    private final long TIMEOUT = 15000;
+    private final long TIMEOUT = 80000;
+    private String baseUrl;
 
-     @BeforeMethod (alwaysRun = true, timeOut = TIMEOUT)
+    BaseTest(){
+        baseUrl = ConfigReader.getBaseUrl();
+    }
+
+    @BeforeMethod (alwaysRun = true, timeOut = TIMEOUT)
     public void setUp(Method testContext, Object [] testArguments) {
-        driver = WebDriverFactory.getInstance().getDriver();
-        driver.navigate().to("https://www.google.com");
-        /*if(driver.findElement(By.tagName("body")).getText().contains("ERR_CONNECTION_CLOSED")){
-            System.out.println("DONE");
-            driver.navigate().to("https://www.google.com");
-        }*/
-        driver.manage().window().maximize();
+        driver = WebDriverFactory.getInstance().getDriver(baseUrl);
     }
 
     @AfterMethod (alwaysRun = true)
@@ -45,7 +45,7 @@ public abstract class BaseTest {
                 System.out.println("======="+textContext.getName() + " SKIPPED =======\n");
                 break;
             default:
-                System.out.println("======="+textContext.getName() + " UNKNOWN =======\n");
+                System.out.println("======="+textContext.getName() + " INCOMPLETE =======\n");
         }
     }
 

@@ -1,5 +1,6 @@
 package pages;
 
+import config.ConfigReader;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -23,12 +24,12 @@ public class BasePage extends PageFactory {
     public BasePage() {
         this.driver = WebDriverFactory.getInstance().getDriver();
         PageFactory.initElements(driver, this);
-        this.wait = new WebDriverWait(driver, 30);
+        this.wait = new WebDriverWait(driver, ConfigReader.getElementWaitTimeout());
         builder = new Actions(driver);
         js = (JavascriptExecutor)driver;
     }
 
-    public void pasteTextToElementFromClipboard(WebElement element, String text) {
+    public void pasteTextFromClipboard(WebElement element, String text) {
         //copy text to memory buffer
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Clipboard clipboard = toolkit.getSystemClipboard();
@@ -38,7 +39,7 @@ public class BasePage extends PageFactory {
         Actions builder = new Actions(driver);
         builder
                 .contextClick(element).sendKeys(Keys.CONTROL, "v")
-                .build();
+                .build().perform();
     }
 
 }
