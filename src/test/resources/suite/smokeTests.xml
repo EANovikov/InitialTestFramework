@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <!--suite name="smokeTests" thread-count="4" parallel="methods"-->
-<suite name="smokeTests" data-provider-thread-count="2">
+<suite name="smokeTests">
 
     <test name="SearchTest">
         <classes>
