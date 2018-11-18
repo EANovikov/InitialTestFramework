@@ -55,6 +55,7 @@ public class WebDriverFactory {
     public void closeDriver() {
         driver.get().quit();
         driver.remove();
+
     }
 
 }

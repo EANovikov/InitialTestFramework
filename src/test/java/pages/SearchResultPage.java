@@ -31,7 +31,7 @@ public class SearchResultPage extends BasePage {
     }
 
     public void  assertThatAllRowsContain(String expectedValue) {
-        wait.until(ExpectedConditions.visibilityOf(searchResultHeaders.get(0)));
+        wait.until(ExpectedConditions.visibilityOf(topSearchResult));
         searchResultHeaders.forEach(element ->
                 assertThat(element.getText())
                         .as("Text has not been found in header!").containsIgnoringCase(expectedValue));

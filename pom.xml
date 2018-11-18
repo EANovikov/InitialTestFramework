@@ -9,11 +9,17 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+
+        <selenium-java.version>3.12.0</selenium-java.version>
         <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
+        <maven-compiler-plugin.version>1.8</maven-compiler-plugin.version>
         <aspectj.version>1.8.10</aspectj.version>
         <testng.version>6.14.3</testng.version>
-        <allure-testng.version>2.6.0</allure-testng.version>
+        <allure-testng.version>2.8.1</allure-testng.version>
+        <allure-maven.version>2.9</allure-maven.version>
         <assertj-core.version>3.11.1</assertj-core.version>
+        <poi-ooxml.version>4.0.0</poi-ooxml.version>
+
     </properties>
 
     <dependencies>
@@ -21,7 +27,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>3.12.0</version>
+            <version>${selenium-java.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.testng/testng -->
@@ -36,7 +42,7 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>4.0.0</version>
+            <version>${poi-ooxml.version}</version>
         </dependency>
 
         <dependency>
@@ -61,8 +67,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${maven-compiler-plugin.version}</source>
+                    <target>${maven-compiler-plugin.version}</target>
                 </configuration>
             </plugin>
 
@@ -100,7 +106,7 @@
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
-                <version>2.9</version>
+                <version>${allure-maven.version}</version>
                 <configuration>
                     <reportVersion>2.6.0</reportVersion>
                 </configuration>
