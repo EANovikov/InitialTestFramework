@@ -20,32 +20,32 @@ public abstract class BaseTest {
 
     private static WebDriver driver;
     private final long TIMEOUT = 80000;
-    private String baseUrl;
+    private String baseUrl = System.getProperty("url");
 
-    BaseTest(){
-        baseUrl = ConfigReader.getBaseUrl();
+    BaseTest() {
+        baseUrl = (baseUrl == null) ? ConfigReader.getBaseUrl() : baseUrl;
     }
 
-    @BeforeMethod (alwaysRun = true, timeOut = TIMEOUT)
-    public void setUp(Method testContext, Object [] testArguments) {
+    @BeforeMethod(alwaysRun = true, timeOut = TIMEOUT)
+    public void setUp(Method testContext, Object[] testArguments) {
         driver = WebDriverFactory.getInstance().getDriver(baseUrl);
     }
 
-    @AfterMethod (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void tearDown(Method textContext, ITestResult result) {
         WebDriverFactory.getInstance().closeDriver();
-        switch(result.getStatus()){
+        switch (result.getStatus()) {
             case ITestResult.SUCCESS:
-                System.out.println("======="+textContext.getName() + " PASSED =======\n");
+                System.out.println("=======" + textContext.getName() + " PASSED =======\n");
                 break;
             case ITestResult.FAILURE:
-                System.out.println("======="+textContext.getName() + " FAILED =======\n");
+                System.out.println("=======" + textContext.getName() + " FAILED =======\n");
                 break;
             case ITestResult.SKIP:
-                System.out.println("======="+textContext.getName() + " SKIPPED =======\n");
+                System.out.println("=======" + textContext.getName() + " SKIPPED =======\n");
                 break;
             default:
-                System.out.println("======="+textContext.getName() + " INCOMPLETE =======\n");
+                System.out.println("=======" + textContext.getName() + " INCOMPLETE =======\n");
         }
     }
 

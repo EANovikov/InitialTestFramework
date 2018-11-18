@@ -11,33 +11,35 @@ public class ConfigReader {
 
     private static Properties prop = new Properties();
 
-    public static String getBaseUrl(){
+    public static String getBaseUrl() {
         return getProperty("baseUrl");
     }
 
-    public static String getBrowser(){
+    public static String getBrowser() {
         return getProperty("browser");
     }
 
-    public static int getElementWaitTimeout(){
+    public static int getElementWaitTimeout() {
         return Integer.parseInt(getProperty("elementWaitTimeout"));
     }
 
     private static String getProperty(String propertyName) {
+        Properties properties = new Properties();
+        InputStream inputStream = null;
         try {
-            // the configuration file name
-            String fileName = "config.properties";
-            ClassLoader classLoader = ConfigReader.class.getClassLoader();
-            // Make sure that the configuration file exists
-            URL res = Objects.requireNonNull(classLoader.getResource(fileName),
-                    "Can't find configuration file app.config");
-            InputStream is = new FileInputStream(res.getFile());
-            prop.load(is);
-
+            inputStream = new FileInputStream("src/test/resources/config.properties");
+            properties.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (inputStream != null)
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
-        return prop.getProperty(propertyName);
+        return properties.getProperty(propertyName);
     }
 
 }
