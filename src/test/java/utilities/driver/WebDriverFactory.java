@@ -47,7 +47,7 @@ public class WebDriverFactory {
     }
 
     public WebDriver getDriver(String url) {
-        driver.get().get(url);
+        driver.get().navigate().to(url);
         driver.get().manage().window().maximize();
         return driver.get();
     }

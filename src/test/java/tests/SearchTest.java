@@ -10,7 +10,7 @@ import steps.SearchSteps;
 
 public class SearchTest extends BaseTest{
 
-    @Test (dataProvider = "TestData", threadPoolSize = 2)
+    @Test (dataProvider = "TestData")
     @Severity(SeverityLevel.BLOCKER)
     @Description("TC01: verify basic search functionality")
     public void searchByKeywordsAndVerifyUrlInTop(TestData testData) {
@@ -18,7 +18,7 @@ public class SearchTest extends BaseTest{
         new SearchResultsSteps().verifyThatValueIsOnTop(testData.getSearchResult());
  }
 
-    @Test (dataProvider = "TestData", threadPoolSize = 2)
+    @Test (dataProvider = "TestData")
     @Severity(SeverityLevel.BLOCKER)
     @Description("TC02: verify basic search functionality")
     public void searchByKeywordsAndCheckThatFirstWordIsFoundInAllRows(TestData testData) {

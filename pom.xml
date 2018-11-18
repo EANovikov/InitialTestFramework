@@ -94,7 +94,6 @@
                         <browser>${browser}</browser>
                         <url>${url}</url>
                         <suite>src/test/resources/suite/${suite}</suite>
-                        <parallelMode>${parallelMode}</parallelMode>
                     </systemPropertyVariables>
                 </configuration>
                 <dependencies>
