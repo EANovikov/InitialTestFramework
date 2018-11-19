@@ -9,7 +9,9 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import utilities.driver.WebDriverFactory;
+import utilities.report.CustomAppender;
 import utilities.report.CustomTestListener;
+import org.apache.log4j.Logger;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -21,6 +23,8 @@ public abstract class BaseTest {
     private static WebDriver driver;
     private final long TIMEOUT = 80000;
     private String baseUrl = System.getProperty("url");
+    private Logger logger;
+    private CustomAppender appender;
 
     BaseTest() {
         baseUrl = (baseUrl == null) ? ConfigReader.getBaseUrl() : baseUrl;
@@ -28,7 +32,9 @@ public abstract class BaseTest {
 
     @BeforeMethod(alwaysRun = true, timeOut = TIMEOUT)
     public void setUp(Method testContext, Object[] testArguments) {
+        startLogging(testContext.getName());
         driver = WebDriverFactory.getInstance().getDriver(baseUrl);
+
     }
 
     @AfterMethod(alwaysRun = true)
@@ -36,17 +42,18 @@ public abstract class BaseTest {
         WebDriverFactory.getInstance().closeDriver();
         switch (result.getStatus()) {
             case ITestResult.SUCCESS:
-                System.out.println("=======" + textContext.getName() + " PASSED =======\n");
+                logger.info("=======" + textContext.getName() + " PASSED =======\n");
                 break;
             case ITestResult.FAILURE:
-                System.out.println("=======" + textContext.getName() + " FAILED =======\n");
+                logger.info("=======" + textContext.getName() + " FAILED =======\n");
                 break;
             case ITestResult.SKIP:
-                System.out.println("=======" + textContext.getName() + " SKIPPED =======\n");
+                logger.info("=======" + textContext.getName() + " SKIPPED =======\n");
                 break;
             default:
-                System.out.println("=======" + textContext.getName() + " INCOMPLETE =======\n");
-        }
+                System.out.println("=======" + textContext.getName() + " BROKEN =======\n");
+                }
+        logger.removeAllAppenders();
     }
 
     @DataProvider(name = "TestData", parallel = true)
@@ -57,6 +64,18 @@ public abstract class BaseTest {
                 .map(x -> new Object[]{x})
                 .collect(Collectors.toList())
                 .toArray(new Object[0][0]);
+    }
+
+    private void startLogging(String text){
+        logger = setUp(text);
+        appender = (CustomAppender) logger.getAppender("CustomAppender");
+    }
+
+    private Logger setUp(String name) {
+        logger = Logger.getLogger(name);
+        CustomAppender appender = new CustomAppender();
+        logger.addAppender(appender);
+        return logger;
     }
 
 }
