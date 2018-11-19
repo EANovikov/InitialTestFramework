@@ -32,7 +32,8 @@ public abstract class BaseTest {
 
     @BeforeMethod(alwaysRun = true, timeOut = TIMEOUT)
     public void setUp(Method testContext, Object[] testArguments) {
-        startLogging(testContext.getName());
+        logger = setUp(testContext.getName());
+        appender = (CustomAppender) logger.getAppender("CustomAppender");
         driver = WebDriverFactory.getInstance().getDriver(baseUrl);
 
     }
@@ -64,11 +65,6 @@ public abstract class BaseTest {
                 .map(x -> new Object[]{x})
                 .collect(Collectors.toList())
                 .toArray(new Object[0][0]);
-    }
-
-    private void startLogging(String text){
-        logger = setUp(text);
-        appender = (CustomAppender) logger.getAppender("CustomAppender");
     }
 
     private Logger setUp(String name) {
