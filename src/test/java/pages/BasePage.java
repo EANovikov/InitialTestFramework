@@ -1,6 +1,6 @@
 package pages;
 
-import config.ConfigReader;
+import utilities.config.ConfigReader;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utilities.driver.DriverFactory;
 import utilities.driver.WebDriverFactory;
 import utilities.report.CustomAppender;
 
@@ -26,7 +27,8 @@ public class BasePage extends PageFactory {
     CustomAppender appender;
 
     public BasePage() {
-        this.driver = WebDriverFactory.getInstance().getDriver();
+        //this.driver = WebDriverFactory.getInstance().getDriver();
+        this.driver = DriverFactory.getDriver();
         PageFactory.initElements(driver, this);
         this.wait = new WebDriverWait(driver, ConfigReader.getElementWaitTimeout());
         builder = new Actions(driver);

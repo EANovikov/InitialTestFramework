@@ -1,11 +1,10 @@
 package utilities.driver;
 
-import config.ConfigReader;
+import utilities.config.ConfigReader;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import java.io.File;
@@ -17,7 +16,7 @@ public class WebDriverFactory {
     private static Logger logger;
 
     private WebDriverFactory() {
-        logger = Logger.getLogger("New WebDriver Factory logger");
+        logger = Logger.getLogger("WebDriver Factory");
     }
 
     private static WebDriverFactory instance = new WebDriverFactory();
@@ -64,9 +63,14 @@ public class WebDriverFactory {
     }
 
     public void closeDriver() {
-        logger.debug("Closing driver");
-        driver.get().quit();
-        driver.remove();
+        if (driver.get() != null) {
+            logger.debug("Closing driver");
+            driver.get().manage().deleteAllCookies();
+            driver.get().quit();
+        } else {
+            logger.debug("WebDriver has instance is null (already closed)");
+            driver.remove();
+        }
 
     }
 

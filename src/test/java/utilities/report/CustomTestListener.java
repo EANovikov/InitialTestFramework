@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
+import utilities.driver.DriverFactory;
 import utilities.driver.WebDriverFactory;
 
 public class CustomTestListener extends TestListenerAdapter {
@@ -35,7 +36,8 @@ public class CustomTestListener extends TestListenerAdapter {
 
     @Attachment(value = "Page screenshot", type = "image/png")
     private byte[] makeScreenshot() {
-        return ((TakesScreenshot) WebDriverFactory.getInstance().getDriver()).getScreenshotAs(OutputType.BYTES);
+        return ((TakesScreenshot) DriverFactory.getDriver()).getScreenshotAs(OutputType.BYTES);
+        //return ((TakesScreenshot) WebDriverFactory.getInstance().getDriver()).getScreenshotAs(OutputType.BYTES);
     }
 
 }
